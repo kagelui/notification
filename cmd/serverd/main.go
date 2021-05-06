@@ -40,6 +40,6 @@ func main() {
 }
 
 type envVar struct {
-	DBAddr string `env:"DATABASE_URL"`
+	DBAddr        string        `env:"DATABASE_URL"`
 	ClientTimeout time.Duration `env:"CLIENT_TIMEOUT"`
 }

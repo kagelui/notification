@@ -24,7 +24,7 @@ func Test_getRetryTime(t *testing.T) {
 				curr:       now,
 				retryCount: 0,
 			},
-			want: now.Add(time.Minute*15),
+			want: now.Add(time.Minute * 15),
 		},
 		{
 			name: "retry 2",
@@ -32,7 +32,7 @@ func Test_getRetryTime(t *testing.T) {
 				curr:       now,
 				retryCount: 1,
 			},
-			want: now.Add(time.Minute*45),
+			want: now.Add(time.Minute * 45),
 		},
 		{
 			name: "retry 3",
@@ -40,7 +40,7 @@ func Test_getRetryTime(t *testing.T) {
 				curr:       now,
 				retryCount: 2,
 			},
-			want: now.Add(time.Minute*120),
+			want: now.Add(time.Minute * 120),
 		},
 		{
 			name: "retry 4",
@@ -48,7 +48,7 @@ func Test_getRetryTime(t *testing.T) {
 				curr:       now,
 				retryCount: 3,
 			},
-			want: now.Add(time.Minute*180),
+			want: now.Add(time.Minute * 180),
 		},
 		{
 			name: "retry 5",
@@ -56,7 +56,7 @@ func Test_getRetryTime(t *testing.T) {
 				curr:       now,
 				retryCount: 4,
 			},
-			want: now.Add(time.Minute*360),
+			want: now.Add(time.Minute * 360),
 		},
 		{
 			name: "retry 6",
@@ -64,7 +64,7 @@ func Test_getRetryTime(t *testing.T) {
 				curr:       now,
 				retryCount: 5,
 			},
-			want: now.Add(time.Minute*720),
+			want: now.Add(time.Minute * 720),
 		},
 	}
 	for _, tt := range tests {

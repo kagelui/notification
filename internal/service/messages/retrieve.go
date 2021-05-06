@@ -17,5 +17,5 @@ func RetrieveAllRetryMessages(ctx context.Context, db Inquirer) ([]*bmodels.Mess
 		bmodels.MessageWhere.RetryCount.LT(maxRetry),
 		bmodels.MessageWhere.NextDeliveryTime.LT(time.Now()),
 		qm.Load(bmodels.MessageRels.Merchant),
-		).All(ctx, db)
+	).All(ctx, db)
 }

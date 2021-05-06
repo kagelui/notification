@@ -15,7 +15,7 @@ import (
 const tokenHeaderKey = "x-callback-token"
 
 type CallbackClient struct {
-	Client     *http.Client
+	Client *http.Client
 }
 
 // Inquirer unifies *sql.DB and *sql.Tx, facilitating unit tests

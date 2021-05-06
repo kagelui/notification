@@ -16,4 +16,3 @@ func WrapError(h web.HandlerFunc) http.HandlerFunc {
 
 	return wh.ServeHTTP
 }
-

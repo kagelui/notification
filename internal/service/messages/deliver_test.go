@@ -45,8 +45,8 @@ func TestCallbackClient_doOneCallback(t *testing.T) {
 		wantErr string
 	}{
 		{
-			name:    "fail",
-			fields:  fields{
+			name: "fail",
+			fields: fields{
 				Client: testutil.NewTestClient(func(req *http.Request) *http.Response {
 					data, err := ioutil.ReadAll(req.Body)
 					if err != nil {
@@ -59,7 +59,7 @@ func TestCallbackClient_doOneCallback(t *testing.T) {
 					return errorResp
 				}),
 			},
-			args:    args{
+			args: args{
 				url:     "failure_url",
 				token:   "some token",
 				payload: "{}",
@@ -67,8 +67,8 @@ func TestCallbackClient_doOneCallback(t *testing.T) {
 			wantErr: "callback error: 500, response: mock error",
 		},
 		{
-			name:    "success",
-			fields:  fields{
+			name: "success",
+			fields: fields{
 				Client: testutil.NewTestClient(func(req *http.Request) *http.Response {
 					data, err := ioutil.ReadAll(req.Body)
 					if err != nil {
@@ -81,7 +81,7 @@ func TestCallbackClient_doOneCallback(t *testing.T) {
 					return &http.Response{StatusCode: http.StatusOK}
 				}),
 			},
-			args:    args{
+			args: args{
 				url:     "success",
 				token:   "some token",
 				payload: "{}",
@@ -119,8 +119,8 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 
 	type fixture struct {
 		merchant bmodels.Merchant
-		url bmodels.CallbackURL
-		message bmodels.Message
+		url      bmodels.CallbackURL
+		message  bmodels.Message
 	}
 	type fields struct {
 		Client *http.Client
@@ -128,26 +128,26 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 	tests := []struct {
 		name    string
 		respErr bool
-		f fixture
+		f       fixture
 		fields  fields
 		wantErr string
 	}{
 		{
 			name:    "success",
 			respErr: false,
-			f:       fixture{
+			f: fixture{
 				merchant: bmodels.Merchant{
 					ID:         92137,
 					BusinessID: "merchant0",
 					Token:      "some token",
 				},
-				url:      bmodels.CallbackURL{
+				url: bmodels.CallbackURL{
 					ID:          32916,
 					BusinessID:  "merchant0",
 					ProductID:   "va",
 					CallbackURL: "success_url",
 				},
-				message:  bmodels.Message{
+				message: bmodels.Message{
 					ID:               uuid.New().String(),
 					ProductID:        "va",
 					ProductType:      "something",
@@ -158,7 +158,7 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 					Status:           MessageDeliveryStatusPending,
 				},
 			},
-			fields:  fields{
+			fields: fields{
 				Client: testutil.NewTestClient(func(req *http.Request) *http.Response {
 					data, err := ioutil.ReadAll(req.Body)
 					if err != nil {
@@ -176,19 +176,19 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 		{
 			name:    "response error",
 			respErr: true,
-			f:       fixture{
+			f: fixture{
 				merchant: bmodels.Merchant{
 					ID:         92137,
 					BusinessID: "merchant0",
 					Token:      "some token",
 				},
-				url:      bmodels.CallbackURL{
+				url: bmodels.CallbackURL{
 					ID:          32916,
 					BusinessID:  "merchant0",
 					ProductID:   "va",
 					CallbackURL: "success_url",
 				},
-				message:  bmodels.Message{
+				message: bmodels.Message{
 					ID:               uuid.New().String(),
 					ProductID:        "va",
 					ProductType:      "something",
@@ -199,7 +199,7 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 					Status:           MessageDeliveryStatusPending,
 				},
 			},
-			fields:  fields{
+			fields: fields{
 				Client: testutil.NewTestClient(func(req *http.Request) *http.Response {
 					data, err := ioutil.ReadAll(req.Body)
 					if err != nil {
@@ -236,13 +236,13 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 				testutil.Ok(t, tt.f.message.Reload(ctx, tx))
 				if tt.respErr {
 					testutil.Equals(t, MessageDeliveryStatusFailed, tt.f.message.Status)
-					testutil.Equals(t, currRetryCount + 1, tt.f.message.RetryCount)
+					testutil.Equals(t, currRetryCount+1, tt.f.message.RetryCount)
 					testutil.CheckTimeApproximately(t, getRetryTime(currRetryTime, currRetryCount), tt.f.message.NextDeliveryTime)
 				} else {
 					testutil.Equals(t, MessageDeliveryStatusSuccess, tt.f.message.Status)
 				}
 			}
-			
+
 			testutil.Ok(t, tx.Rollback())
 		})
 	}

@@ -2,7 +2,7 @@ package messages
 
 // MessageDeliveryStatus constants
 const (
-	MessageDeliveryStatusFailed = "FAILED"
+	MessageDeliveryStatusFailed  = "FAILED"
 	MessageDeliveryStatusPending = "PENDING"
 	MessageDeliveryStatusSuccess = "SUCCESS"
 )

@@ -59,7 +59,7 @@ func main() {
 			httpClient := http.DefaultClient
 			httpClient.Timeout = e.ClientTimeout
 			client := messages.CallbackClient{
-				Client:     httpClient,
+				Client: httpClient,
 			}
 
 			for message := range messageChannel {
@@ -82,6 +82,6 @@ func main() {
 }
 
 type envVar struct {
-	DBAddr string `env:"DATABASE_URL"`
+	DBAddr        string        `env:"DATABASE_URL"`
 	ClientTimeout time.Duration `env:"CLIENT_TIMEOUT"`
 }

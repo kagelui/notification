@@ -14,10 +14,10 @@ type messageStore interface {
 }
 
 type callbackRequest struct {
-	ProductID string `json:"product_id"`
+	ProductID   string `json:"product_id"`
 	ProductType string `json:"product_type"`
-	Payload string `json:"payload"`
-	BusinessID string `json:"business_id"`
+	Payload     string `json:"payload"`
+	BusinessID  string `json:"business_id"`
 }
 
 // StoreCallbackThenSend stores the callback and perform the call back

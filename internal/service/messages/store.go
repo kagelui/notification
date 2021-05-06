@@ -29,13 +29,13 @@ func (m ModelStore) InsertCallbackThenDo(ctx context.Context, productID, product
 	}
 
 	message := bmodels.Message{
-		ID: uuid.New().String(),
-		ProductID:        productID,
-		ProductType:      productType,
-		Payload:          payloadJSON,
-		MerchantID:       merchant.ID,
-		RetryCount:       0,
-		Status:           MessageDeliveryStatusPending,
+		ID:          uuid.New().String(),
+		ProductID:   productID,
+		ProductType: productType,
+		Payload:     payloadJSON,
+		MerchantID:  merchant.ID,
+		RetryCount:  0,
+		Status:      MessageDeliveryStatusPending,
 	}
 	if err = message.Insert(ctx, m.DB, boil.Infer()); err != nil {
 		return err

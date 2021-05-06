@@ -59,4 +59,3 @@ func NewError(err error, message string) *Error {
 	result.Err = errors.WithStack(errors.New(message))
 	return result
 }
-
