@@ -30,6 +30,7 @@ func StoreCallbackThenSend(store messageStore, timeout time.Duration) web.Handle
 		if err := store.InsertCallbackThenDo(r.Context(), req.ProductID, req.ProductType, req.Payload, req.BusinessID, timeout); err != nil {
 			return web.NewError(err, "error performing callback")
 		}
+		web.RespondJSON(r.Context(), w, "ok", nil)
 		return nil
 	}
 }
