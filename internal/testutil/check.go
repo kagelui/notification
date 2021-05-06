@@ -1,6 +1,7 @@
 package testutil
 
 import (
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -74,4 +75,18 @@ func TimesAreCloseEnough(a, b time.Time) bool {
 		return a.Sub(b) < limit
 	}
 	return b.Sub(a) < limit
+}
+
+type roundTripFunc func(req *http.Request) *http.Response
+
+// RoundTrip implements RoundTripper
+func (f roundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
+	return f(req), nil
+}
+
+// NewTestClient returns *http.Client with Transport replaced to avoid making real calls
+func NewTestClient(fn roundTripFunc) *http.Client {
+	return &http.Client{
+		Transport: fn,
+	}
 }
