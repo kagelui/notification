@@ -11,7 +11,7 @@ CREATE INDEX merchants_business_id_index ON public.merchants (business_id);
 CREATE TABLE "public"."callback_urls"
 (
     id           SERIAL PRIMARY KEY,
-    business_id  TEXT UNIQUE              NOT NULL CHECK (business_id::TEXT <> ''::TEXT),
+    business_id  TEXT                     NOT NULL CHECK (business_id::TEXT <> ''::TEXT),
     product_id   TEXT                     NOT NULL CHECK (product_id::TEXT <> ''::TEXT),
     callback_url TEXT                     NOT NULL CHECK (callback_url::TEXT <> ''::TEXT),
     created_at   TIMESTAMP WITH TIME ZONE NOT NULL,

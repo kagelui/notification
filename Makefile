@@ -27,7 +27,7 @@ go-test:
 	go test -coverprofile=c.out -failfast -timeout 5m ./...
 
 # run starts the web server in a golang container
-run: setup
+run: setup hermes-run
 	@$(RUN_COMPOSE) env $(shell cat .env | egrep -v '^#|^DATABASE_URL' | xargs) \
 		go run cmd/serverd/main.go
 
@@ -36,9 +36,13 @@ coverage: test
 
 build: setup
 	$(GO_COMPOSE) make go-build
+	$(GO_COMPOSE) make go-build-hermes
 
 go-build:
 	go build -v ./cmd/serverd
+
+go-build-hermes:
+	go build -v ./cmd/hermes
 
 # teardown stops and removes all containers and resources associated to docker-compose.yml
 teardown:
@@ -51,6 +55,12 @@ db-api:
 migrate-api:
 	$(COMPOSE) run --rm -v $(APP_PWD)/data/migrations:/migrations migrate-api \
 	sh -c './migrate -path /migrations -database $$DATABASE_URL up'
+
+docker-compose-build-hermes:
+	$(COMPOSE) up -d --build hermes
+
+hermes-run:
+	$(COMPOSE) up -d hermes
 
 # sleep is to delay the test from running to ensure all services (i.e. mq, db, redis) are up
 sleep:

@@ -33,11 +33,11 @@ services:
       POSTGRES_USER: notification-api
       POSTGRES_PASSWORD: notification-api
 
-  bifrost:
+  hermes:
     build:
       context: .
-      dockerfile: bifrost.Dockerfile
-    container_name: notification-bifrost-${CONTAINER_SUFFIX:-local}
+      dockerfile: hermes.Dockerfile
+    container_name: notification-hermes-${CONTAINER_SUFFIX:-local}
     networks:
       - notification-network
     env_file:

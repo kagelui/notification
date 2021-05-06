@@ -229,7 +229,7 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 			c := CallbackClient{
 				Client: tt.fields.Client,
 			}
-			err := c.DoCallback(ctx, tx, tt.f.message)
+			err := c.DoCallback(ctx, tx, &tt.f.message)
 			testutil.CompareError(t, tt.wantErr, err)
 
 			if err == nil {
@@ -237,7 +237,7 @@ func TestCallbackClient_DoCallback(t *testing.T) {
 				if tt.respErr {
 					testutil.Equals(t, MessageDeliveryStatusFailed, tt.f.message.Status)
 					testutil.Equals(t, currRetryCount + 1, tt.f.message.RetryCount)
-					testutil.Equals(t, getRetryTime(currRetryTime, currRetryCount), tt.f.message.NextDeliveryTime)
+					testutil.CheckTimeApproximately(t, getRetryTime(currRetryTime, currRetryCount), tt.f.message.NextDeliveryTime)
 				} else {
 					testutil.Equals(t, MessageDeliveryStatusSuccess, tt.f.message.Status)
 				}

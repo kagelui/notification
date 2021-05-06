@@ -29,7 +29,7 @@ type Inquirer interface {
 }
 
 // DoCallback carries out the callback, note that messageWithMerchantInfo must contain the merchant info
-func (c CallbackClient) DoCallback(ctx context.Context, db Inquirer, messageWithMerchantInfo bmodels.Message) error {
+func (c CallbackClient) DoCallback(ctx context.Context, db Inquirer, messageWithMerchantInfo *bmodels.Message) error {
 	if messageWithMerchantInfo.R == nil || messageWithMerchantInfo.R.Merchant == nil {
 		return ErrMerchantInfoNotLoaded
 	}
@@ -63,6 +63,7 @@ func (c CallbackClient) doOneCallback(url, token, payload string) error {
 		return err
 	}
 	req.Header.Set(tokenHeaderKey, token)
+	req.Header.Set("Content-Type", "application/json")
 	resp, e := c.Client.Do(req)
 	if e != nil {
 		return e

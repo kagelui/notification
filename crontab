@@ -1,0 +1,2 @@
+SHELL=/bin/sh
+*/10 * * * * /script.sh >> /var/log/script.log
