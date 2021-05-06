@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  go-api:
+    build: .
+    container_name: go-notification-api-${CONTAINER_SUFFIX:-local}
+    image: golang:1.15.0
+    ports:
+      - 8080:8080
+    networks:
+      - notification-network
+    environment:
+      CGO_ENABLED: 0
+      GOARCH: amd64
+      GOOS: linux
+      TZ: Asia/Singapore
+      DATABASE_URL: ${DATABASE_URL}
+
+  db-api:
+    container_name: db-notification-api-${CONTAINER_SUFFIX:-local}
+    image: postgres:13-alpine
+    ports:
+      - 5432:5432
+    networks:
+      - notification-network
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    environment:
+      POSTGRES_USER: notification-api
+      POSTGRES_PASSWORD: notification-api
+
+  bifrost:
+    build:
+      context: .
+      dockerfile: bifrost.Dockerfile
+    container_name: notification-bifrost-${CONTAINER_SUFFIX:-local}
+    networks:
+      - notification-network
+    env_file:
+      - .env
+
+  migrate-api:
+    container_name: migrate-notification-api-${CONTAINER_SUFFIX:-local}
+    image: migrate/migrate:v4.10.0
+    networks:
+      - notification-network
+    restart: "no"
+    entrypoint: ""
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+
+networks:
+  notification-network:
+    name: notification-network-${CONTAINER_SUFFIX:-local}

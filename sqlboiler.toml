@@ -1,0 +1,13 @@
+# Refer to https://github.com/volatiletech/sqlboiler#configuration
+pkgname="bmodels"
+output="internal/models/bmodels"
+no-hooks="true"
+[psql]
+  dbname="notification-api"
+  host="127.0.0.1"
+  port=5432
+  user="notification-api"
+  pass="notification-api"
+  schema="public"
+  sslmode="disable"
+  blacklist=["schema_migrations"]
